@@ -5,7 +5,7 @@
    var profileId = document.querySelector('#profile-id') || null;
    var profileUsername = document.querySelector('#profile-username') || null;
    var profileRepos = document.querySelector('#profile-repos') || null;
-   var displayName = document.querySelector('#display-name');
+   var displayName = document.querySelector('#display-name') || null;
    var apiUrl = appUrl + '/api/:id';
 
    function updateHtmlElement (data, element, userProperty) {
@@ -15,18 +15,22 @@
    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
       var userObject = JSON.parse(data);
 
-      updateHtmlElement(userObject, displayName, 'displayName');
+      if (displayName === null) {
+        updateHtmlElement(userObject, profileUsername, 'username');
+      } else {
+        updateHtmlElement(userObject, displayName, 'displayName');
+      }
 
       if (profileId !== null) {
-         updateHtmlElement(userObject, profileId, 'id');   
+         updateHtmlElement(userObject, profileId, 'id');
       }
 
       if (profileUsername !== null) {
-         updateHtmlElement(userObject, profileUsername, 'username');   
+         updateHtmlElement(userObject, profileUsername, 'username');
       }
 
       if (profileRepos !== null) {
-         updateHtmlElement(userObject, profileRepos, 'publicRepos');   
+         updateHtmlElement(userObject, profileRepos, 'publicRepos');
       }
 
    }));
